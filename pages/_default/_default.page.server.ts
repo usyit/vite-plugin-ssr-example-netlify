@@ -21,7 +21,7 @@ export async function render(pageContext: PageContextBuiltIn & PageContext) {
   const title = pageContext.exports.title ? pageContext.exports.title + " — " : "";
   const faviconUrl = import.meta.env.BASE_URL + "logo.svg";
   
-  const html = pageContext.exports.title === 'SSR' ? `
+  const html = pageContext.exports.title === 'SSR' ? escapeInject`
   <!DOCTYPE html>
   <html lang="en">
     <head>
@@ -42,7 +42,7 @@ export async function render(pageContext: PageContextBuiltIn & PageContext) {
 
     </body>
   </html>
-` : `
+` : escapeInject`
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -50,8 +50,8 @@ export async function render(pageContext: PageContextBuiltIn & PageContext) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-
-    <title>${title}vite-plugin-ssr</title>
+    
+    <title>${title}vite-plugin-no-ssr</title>
     <link rel="icon" href="${faviconUrl}">
 
   </head>
@@ -64,5 +64,5 @@ export async function render(pageContext: PageContextBuiltIn & PageContext) {
 </html>
 `
 
-  return escapeInject`${html}`;
+  return html;
 }
