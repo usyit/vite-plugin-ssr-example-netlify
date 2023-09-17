@@ -29,6 +29,7 @@ export async function render(pageContext: PageContextBuiltIn & PageContext) {
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+        <meta name="twitter:description" content="El U-Tag es práctico y versátil, ya que lo puedes adherir en la parte posterior de tu teléfono para transmitir tu información de contacto a todos lo que quieras. Simplifica tu vida haciéndola mucha más dinámica.">
 
         <title>${title}vite-plugin-ssr</title>
         <link rel="icon" href="${faviconUrl}">
