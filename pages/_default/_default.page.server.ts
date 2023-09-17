@@ -20,27 +20,49 @@ export async function render(pageContext: PageContextBuiltIn & PageContext) {
   const pageHtml = pageContext.Page ? await renderToString(page) : "";
   const title = pageContext.exports.title ? pageContext.exports.title + " — " : "";
   const faviconUrl = import.meta.env.BASE_URL + "logo.svg";
+  
+  const html = pageContext.exports.title === 'SSR' ? `
+  <!DOCTYPE html>
+  <html lang="en">
+    <head>
 
-  return escapeInject`
-    <!DOCTYPE html>
-    <html lang="en">
-      <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+      <meta name="twitter:description" content="El U-Tag es práctico y versátil, ya que lo puedes adherir en la parte posterior de tu teléfono para transmitir tu información de contacto a todos lo que quieras. Simplifica tu vida haciéndola mucha más dinámica.">
 
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-        <meta name="twitter:description" content="El U-Tag es práctico y versátil, ya que lo puedes adherir en la parte posterior de tu teléfono para transmitir tu información de contacto a todos lo que quieras. Simplifica tu vida haciéndola mucha más dinámica.">
+      <title>${title}vite-plugin-ssr</title>
+      <link rel="icon" href="${faviconUrl}">
 
-        <title>${title}vite-plugin-ssr</title>
-        <link rel="icon" href="${faviconUrl}">
+    </head>
+    <body>
 
-      </head>
-      <body>
+      <!-- This is where the page HTML is injected into the document. -->
+      <div id="page">${dangerouslySkipEscape(pageHtml)}</div>
 
-        <!-- This is where the page HTML is injected into the document. -->
-        <div id="page">${dangerouslySkipEscape(pageHtml)}</div>
+    </body>
+  </html>
+` : `
+<!DOCTYPE html>
+<html lang="en">
+  <head>
 
-      </body>
-    </html>
-  `;
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+    <title>${title}vite-plugin-ssr</title>
+    <link rel="icon" href="${faviconUrl}">
+
+  </head>
+  <body>
+
+    <!-- This is where the page HTML is injected into the document. -->
+    <div id="page">${dangerouslySkipEscape(pageHtml)}</div>
+
+  </body>
+</html>
+`
+
+  return escapeInject`${html}`;
 }
